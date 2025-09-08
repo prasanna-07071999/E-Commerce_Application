@@ -14,7 +14,10 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(express.json())
 
-const dbPath = path.join(__dirname, "db", "nxttrends.db")
+const dbPath =
+  process.env.NODE_ENV === "production"
+    ? path.join("/tmp", "nxttrends.db")
+    : path.join(__dirname, "db", "nxttrends.db"); 
 
 let db = null
 
@@ -145,9 +148,9 @@ app.post("/login", async (request, response) => {
   }
 })
 
-app.get('/products', async (req, res) => {
+app.get('/products', async (request, response) => {
   try {
-    const { category, title_search, rating, sort_by } = req.query;
+    const { category, title_search, rating, sort_by } = request.query;
 
     let query = 'SELECT * FROM products WHERE 1=1';
     const params = [];
@@ -174,50 +177,48 @@ app.get('/products', async (req, res) => {
     }
 
     const rows = await db.all(query, params);
-    res.send({ products: rows });
+    response.send({ products: rows });
   } catch (err) {
     console.error('DB Error:', err.message);
-    res.status(500).send({ error: err.message });
+    response.status(500).send({ error: err.message });
   }
 });
 
 
 // Get single product by ID
-app.get('/products/:id', async (req, res) => {
+app.get('/products/:id', async (request, response) => {
   try {
-    const { id } = req.params;
+    const { id } = request.params;
     const product = await db.get('SELECT * FROM products WHERE id = ?', [id]);
     
     if (!product) {
-      return res.status(404).send({ error: 'Product not found' });
+      return response.status(404).send({ error: 'Product not found' });
     }
 
-    res.send(product);
+    response.send(product);
   } catch (error) {
     console.error('DB Error:', error.message);
-    res.status(500).send({ error: error.message });
+    response.status(500).send({ error: error.message });
   }
 });
 
 
-
-
-// Add to cart POST route without async/await
-app.post('/cart', authenticateToken, async (req, res) => {
+// Add to cart POST route
+app.post('/cart', authenticateToken, async (request, response) => {
   try {
-    const { user_id, product_id, quantity } = req.body;
+    const { user_id, product_id, quantity } = request.body;
     const query = 'INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)';
     const result = await db.run(query, [user_id, product_id, quantity]);
-    res.send({ cartId: result.lastID });
+    response.send({ cartId: result.lastID });
   } catch (err) {
-    res.status(400).send({ error: err.message });
+    response.status(400).send({ error: err.message });
   }
 });
 
 // Get cart items GET route
-app.get('/cart/:userId', authenticateToken, async (req, res) => {
+app.get('/cart/:userId', authenticateToken, async (request, response) => {
   try {
-    const { userId } = req.params;
+    const { userId } = request.params;
     const query = `
       SELECT c.id, p.title, p.price, c.quantity
       FROM cart c 
@@ -225,39 +226,39 @@ app.get('/cart/:userId', authenticateToken, async (req, res) => {
       WHERE c.user_id = ?
     `;
     const rows = await db.all(query, [userId]);
-    res.send({ cartItems: rows });
+    response.send({ cartItems: rows });
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    response.status(500).send({ error: err.message });
   }
 });
 
 // Delete cart item route
-app.delete('/cart/:cartId', authenticateToken, async (req, res) => {
+app.delete('/cart/:cartId', authenticateToken, async (request, response) => {
   try {
-    const { cartId } = req.params;
+    const { cartId } = request.params;
     await db.run('DELETE FROM cart WHERE id = ?', [cartId]);
-    res.send({ message: 'Item removed from cart' });
+    response.send({ message: 'Item removed from cart' });
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    response.status(500).send({ error: err.message });
   }
 });
 
 // Clear cart items route
-app.delete('/cart/clear/:userId', authenticateToken, async (req, res) => {
+app.delete('/cart/clear/:userId', authenticateToken, async (request, response) => {
   try {
-    const { userId } = req.params;
+    const { userId } = request.params;
     await db.run('DELETE FROM cart WHERE user_id = ?', [userId]);
-    res.send({ message: 'Cart cleared successfully' });
+    response.send({ message: 'Cart cleared successfully' });
   } catch (err) {
-    res.status(500).send({ error: err.message });
+    response.status(500).send({ error: err.message });
   }
 });
 
 
 // Create product
-app.post('/products', authenticateToken, async (req, res) => {
+app.post('/products', authenticateToken, async (request, response) => {
   try {
-    const { id, title, brand, price, image_url, category_id, rating } = req.body;
+    const { id, title, brand, price, image_url, category_id, rating } = request.body;
 
     if (!id || !title || !brand || price === undefined || !image_url) {
       return res.status(400).send({ error: 'Missing required product fields' });
@@ -268,18 +269,18 @@ app.post('/products', authenticateToken, async (req, res) => {
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
     await db.run(insertQuery, [id, title, brand, price, image_url, category_id, rating]);
-    res.status(201).send({ message: 'Product created successfully' });
+    response.status(201).send({ message: 'Product created successfully' });
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    response.status(500).send({ error: error.message });
   }
 });
 
 
 // Update product
-app.put('/products/:id', authenticateToken, async (req, res) => {
+app.put('/products/:id', authenticateToken, async (request, response) => {
   try {
-    const { id } = req.params;
-    const { title, brand, price, image_url, category_id, rating } = req.body;
+    const { id } = request.params;
+    const { title, brand, price, image_url, category_id, rating } = request.body;
 
     const existingProduct = await db.get('SELECT * FROM products WHERE id = ?', [id]);
     if (!existingProduct) {
@@ -292,26 +293,26 @@ app.put('/products/:id', authenticateToken, async (req, res) => {
       WHERE id = ?
     `;
     await db.run(updateQuery, [title, brand, price, image_url, category_id, rating, id]);
-    res.send({ message: 'Product updated successfully' });
+    response.send({ message: 'Product updated successfully' });
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    response.status(500).send({ error: error.message });
   }
 });
 
 
 // Delete product
-app.delete('/products/:id', authenticateToken, async (req, res) => {
+app.delete('/products/:id', authenticateToken, async (request, response) => {
   try {
-    const { id } = req.params;
+    const { id } = request.params;
 
     const existingProduct = await db.get('SELECT * FROM products WHERE id = ?', [id]);
     if (!existingProduct) {
-      return res.status(404).send({ error: 'Product not found' });
+      return response.status(404).send({ error: 'Product not found' });
     }
 
     await db.run('DELETE FROM products WHERE id = ?', [id]);
-    res.send({ message: 'Product deleted successfully' });
+    response.send({ message: 'Product deleted successfully' });
   } catch (error) {
-    res.status(500).send({ error: error.message });
+    response.status(500).send({ error: error.message });
   }
 });
