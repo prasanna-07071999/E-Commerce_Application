@@ -37,7 +37,7 @@ class LoginForm extends Component {
     event.preventDefault()
     const {username, password} = this.state
     const userDetails = {username, password}
-    const url = 'http://localhost:5000/login'
+    const url = 'https://e-commerce-application-backend-hbpu.onrender.com/login'
     const options = {
       method: 'POST',
       headers: {
@@ -50,7 +50,7 @@ class LoginForm extends Component {
     if (response.ok === true) {
       this.onSubmitSuccess(data.jwt_token)
     } else {
-      this.onSubmitFailure(data.error_msg)
+      this.onSubmitFailure(data.error_ms)
     }
   }
 

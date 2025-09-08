@@ -93,7 +93,7 @@ class AllProductsSection extends Component {
     const jwtToken = Cookies.get('jwt_token')
     const {activeOptionId, activeCategoryId, searchInput, activeRatingId} =
       this.state
-    const apiUrl = `http://localhost:5000/products?sort_by=${activeOptionId}&category=${activeCategoryId}&title_search=${searchInput}&rating=${activeRatingId}`
+    const apiUrl = `https://e-commerce-application-backend-hbpu.onrender.com/products?sort_by=${activeOptionId}&category=${activeCategoryId}&title_search=${searchInput}&rating=${activeRatingId}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,

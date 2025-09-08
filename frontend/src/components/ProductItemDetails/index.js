@@ -46,7 +46,7 @@ class ProductItemDetails extends Component {
       apiStatus: apiStatusConstants.inProgress,
     })
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = `http://localhost:5000/products/${id}`
+    const apiUrl = `https://e-commerce-application-backend-hbpu.onrender.com/products/${id}`
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,

@@ -20,7 +20,7 @@ class Products extends Component {
   fetchProducts = async () => {
     const jwtToken = Cookies.get('jwt_token')
     try {
-      const response = await fetch('https://apis.ccbp.in/products', {
+      const response = await fetch('https://e-commerce-application-backend-hbpu.onrender.com/products', {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
@@ -42,7 +42,7 @@ class Products extends Component {
 
     const jwtToken = Cookies.get('jwt_token')
     try {
-      const response = await fetch(`https://apis.ccbp.in/products/${id}`, {
+      const response = await fetch(`https://e-commerce-application-backend-hbpu.onrender.com/products/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${jwtToken}`,

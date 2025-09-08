@@ -73,8 +73,8 @@ class ProductForm extends Component {
     }
     const jwtToken = Cookies.get('jwt_token')
     const url = isEdit
-      ? `http://localhost:5000/products/${id}`
-      : 'http://localhost:5000/products'
+      ? `https://e-commerce-application-backend-hbpu.onrender.com/products/${id}`
+      : 'https://e-commerce-application-backend-hbpu.onrender.com/products'
     const method = isEdit ? 'PUT' : 'POST'
 
     try {

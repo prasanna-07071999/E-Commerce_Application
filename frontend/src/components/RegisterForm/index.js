@@ -33,7 +33,7 @@ class RegisterForm extends Component {
     event.preventDefault()
     const {username, password} = this.state
     const userDetails = {username, password}
-    const url = 'http://localhost:5000/signup' 
+    const url = 'https://e-commerce-application-backend-hbpu.onrender.com/signup' 
     const options = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
