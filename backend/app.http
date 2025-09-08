@@ -1,0 +1,92 @@
+### Signup (public)
+POST http://localhost:5000/signup
+Content-Type: application/json
+
+{
+  "username": "henry",
+  "password": "henry_the_developer"
+}
+
+### Login (public)
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "rahul",
+    "password": "rahul@2021"
+}
+
+
+### Get Products 
+GET http://localhost:5000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+
+### Get Product by Id
+
+GET http://localhost:5000/products/24
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+### Get products in category 2
+GET http://localhost:5000/products?category=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+
+
+### Add to Cart (requires JWT)
+POST http://localhost:5000/cart
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+{
+  "user_id": 1,
+  "product_id": 16,
+  "quantity": 2
+}
+
+### Get Cart Items for User (requires JWT)
+GET http://localhost:5000/cart/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+### Remove Cart Item (requires JWT)
+DELETE http://localhost:5000/cart/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+### Clear Cart (requires JWT)
+DELETE http://localhost:5000/cart/clear/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+
+
+### Add product
+POST http://localhost:5000/products
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+Content-Type: application/json
+
+{
+  "id": 101,
+  "title": "New Product",
+  "brand": "TestBrand",
+  "price": 1999,
+  "image_url": "https://example.com/product.png",
+  "category_id": 1,
+  "rating": 4
+}
+
+### Update product
+PUT http://localhost:5000/products/101
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
+Content-Type: application/json
+
+{
+  "title": "Updated Product",
+  "brand": "UpdatedBrand",
+  "price": 2500,
+  "image_url": "https://example.com/updated.png",
+  "category_id": 2,
+  "rating": 5
+}
+
+### Delete product
+DELETE http://localhost:5000/products/101
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwiaWF0IjoxNzU3MzI5ODkwfQ.cgFHhU7n5PsXHo3p2A9_EeMfz6NYSDMF9kU4ZQBiN4A
