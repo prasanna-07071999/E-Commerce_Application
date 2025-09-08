@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Full-Stack E-Commerce Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This is a full-stack E-Commerce web application built with React for the frontend and Node.js with Express for the backend, using SQLite as the database. The app starts with a user registration page. Existing users can log in directly. After login, users are directed to the home page featuring a header for navigation.
 
-## Available Scripts
+## Features
+- **User Authentication:** Secure registration and login with JWT-based authentication.
+- **Navigation:** Header with options to navigate between Home, Products, and Cart.
+- **Product Listing:** Products displayed on the Products page with details on selecting a product.
+- **Product Details:** Detailed view of a selected product with an option to add it to the cart.
+- **Shopping Cart:** Users can add products to their cart; cart data is saved persistently using localStorage.
+- **Cart Management:** Cart items remain until explicitly removed by the user.
 
-In the project directory, you can run:
+## Technologies Used
+- **Frontend:** React (class components), React Router
+- **Backend:** Node.js, Express
+- **Database:** SQLite
+- **Authentication:** JWT, bcrypt for password hashing
+- **State Persistence:** localStorage syncing with React state
 
-### `npm start`
+## Project Structure
+- `frontend/` — React application
+- `backend/` — Express server with APIs and database integration
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## API Endpoints
+- User authentication (signup, login) with JWT issuance.
+- CRUD operations for products.
+- Cart management APIs (add item, get cart items, delete single item, clear cart).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+##
+Install backend dependencies and start server:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+cd backend
+npm install
+npm start
+##
+Install frontend dependencies and start development server:
 
-### `npm run build`
+cd ../frontend
+npm install
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Access the app at `http://localhost:3000`. The backend server runs on port 5000 by default.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Deployment
 
-### `npm run eject`
+- Frontend and backend can be deployed separately.
+- Frontend is deployed as a static site (build folder).
+- Backend is deployed as a web service listening on a dynamic port.
+- Remember to configure environment variables like JWT secret and database path in the deployment environment.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Important Notes
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Cart items are stored in localStorage for persistence across sessions.
+- JWT tokens are used to protect backend routes.
+- Make sure to update frontend API URLs according to the deployed backend service.
+- Backend listens on `process.env.PORT` for compatibility with cloud hosting.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Contributing
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Feel free to raise issues or submit pull requests to improve functionality.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

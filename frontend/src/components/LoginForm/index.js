@@ -37,7 +37,7 @@ class LoginForm extends Component {
     event.preventDefault()
     const {username, password} = this.state
     const userDetails = {username, password}
-    const url = 'https://e-commerce-application-backend-hbpu.onrender.com/login'
+    const url = `https://e-commerce-application-backend-hbpu.onrender.com/login`
     const options = {
       method: 'POST',
       headers: {
@@ -47,10 +47,12 @@ class LoginForm extends Component {
     }
     const response = await fetch(url, options)
     const data = await response.json()
+    console.log('Response status:', response.status);
+    console.log('Response data:', data);
     if (response.ok === true) {
       this.onSubmitSuccess(data.jwt_token)
     } else {
-      this.onSubmitFailure(data.error_ms)
+      this.onSubmitFailure(data.error_msg)
     }
   }
 
