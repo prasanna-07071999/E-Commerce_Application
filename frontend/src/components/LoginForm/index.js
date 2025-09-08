@@ -45,14 +45,19 @@ class LoginForm extends Component {
       },
       body: JSON.stringify(userDetails),
     }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    console.log('Response status:', response.status);
-    console.log('Response data:', data);
-    if (response.ok === true) {
-      this.onSubmitSuccess(data.jwt_token)
-    } else {
-      this.onSubmitFailure(data.error_msg)
+    try {
+      const response = await fetch(url, options)
+      const data = await response.json()
+      console.log('Response status:', response.status)
+      console.log('Response data:', data)
+      if (response.ok) {
+        this.onSubmitSuccess(data.jwt_token)
+      } else {
+        this.onSubmitFailure(data.error_msg)
+      }
+    } catch (error) {
+      console.error('Network error:', error)
+      this.onSubmitFailure('Network error')
     }
   }
 
